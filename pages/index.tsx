@@ -80,20 +80,20 @@ export default function Home() {
             }}>
               {credentials?.appSecrets === false ?
                 <Fragment>
-                  <Form.Item name="client_id" label="Shopify client ID" rules={[{ required: true, message: 'Client ID required' }]}>
+                  <Form.Item name="client_id" label="APP CLIENT ID" rules={[{ required: true, message: 'CLIENT ID is required' }]}>
                     <Input />
                   </Form.Item>
-                  <Form.Item name="client_secret" label="Shopify secret" rules={[{ required: true, message: 'Client secret required' }]}>
+                  <Form.Item name="client_secret" label="APP CLIENT SECRET" rules={[{ required: true, message: 'CLIENT SECRET is required' }]}>
                     <Input.Password />
                   </Form.Item>
                 </Fragment> : <></>}
-              <Form.Item name="shop" label="Shop" rules={[{ required: true, message: 'Shop required' }]}>
+              <Form.Item name="shop" label="Shop" rules={[{ required: true, message: 'The shop name is required' }]}>
                 <Input addonAfter={<span className='font-bold'>{`.${process.env.NEXT_PUBLIC_SHOPIFY_APP_DOMAIN!}`}</span>} />
               </Form.Item>
-              <Form.Item name="scopes" label="Scopes" rules={[{ required: true, message: 'Scope required' }]}>
+              <Form.Item name="scopes" label="Scopes" rules={[{ required: true, message: 'The scopes are required' }]}>
                 <Input />
               </Form.Item>
-              <Form.Item name="redirect_uri" label="Local app URL" rules={[{ required: true, message: 'Redirect URI required' }]}>
+              <Form.Item name="redirect_uri" label="Local app URL" rules={[{ required: true, message: 'The local app URL is required' }]}>
                 <Input />
               </Form.Item>
               <Form.Item name="embedded" rules={[{ required: true, message: 'Embedded property is required' }]} valuePropName="checked">
