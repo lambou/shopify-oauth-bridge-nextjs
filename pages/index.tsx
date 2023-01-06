@@ -1,5 +1,5 @@
 import { Inter } from '@next/font/google';
-import { Button, Form, Input, message } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import clsx from 'clsx';
 import Head from 'next/head';
 import { Fragment, useEffect, useState } from "react";
@@ -74,7 +74,8 @@ export default function Home() {
               client_id: credentials?.client_id,
               shop: credentials?.config?.shop,
               redirect_uri: credentials?.config?.redirect_uri ?? 'http://locahost:3000',
-              scopes: credentials?.config?.scopes ?? 'write_products'
+              scopes: credentials?.config?.scopes ?? 'write_products',
+              embedded: credentials?.config?.embedded ?? true,
             }}>
               {credentials?.appSecrets === false ? <Fragment>
                 <Form.Item name="client_id" label="Shopify client ID" rules={[{ required: true, message: 'Client ID required' }]}>
@@ -93,9 +94,12 @@ export default function Home() {
               <Form.Item name="redirect_uri" label="Local app URL" rules={[{ required: true, message: 'Redirect URI required' }]}>
                 <Input />
               </Form.Item>
+              <Form.Item name="embedded" label="Embedded" rules={[{ required: true, message: 'Embedded property is required' }]} valuePropName="checked">
+                <Checkbox>Embedded application</Checkbox>
+              </Form.Item>
               {credentials?.authenticatedUrl ? <div className="bg-blue-50 border-blue-500 p-6 rounded-2xl flex flex-col gap-3">
                 <div className="font-bold">Authenticated URL</div>
-                <a href={credentials.authenticatedUrl} target="_blank">{credentials.authenticatedUrl}</a>
+                <a href={credentials.authenticatedUrl} target="_blank" rel="noreferrer">{credentials.authenticatedUrl}</a>
               </div> : <></>}
               <Button size='large' loading={loading} type="primary" htmlType="submit">
                 Login
