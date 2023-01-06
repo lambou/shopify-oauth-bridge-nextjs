@@ -78,7 +78,7 @@ export default function handler(
                     state: nonce(),
                     embedded: validation.value.embedded
                 };
-
+                
                 const credentials: ICredentials = isShopifyAppCredentialsDefined() ? {
                     initiated: true,
                     appSecrets: true,
@@ -99,7 +99,7 @@ export default function handler(
                     .replace(new RegExp('{nonce}'), config.state);
 
                 res.setHeader('Set-Cookie', serialize(process.env.CREDENTIALS_COOKIE_NAME!, JSON.stringify(credentials), {
-                    maxAge: Date.now() + (60 * 60 * 1000),
+                    expires: new Date(Date.now() + (60 * 60 * 1000)),
                     path: '/'
                 }));
 

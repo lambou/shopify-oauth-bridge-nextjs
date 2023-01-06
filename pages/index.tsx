@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { Fragment, useEffect, useState } from "react";
 import ICredentials from '../interfaces/ICredentials';
 import styles from "../styles/Home.module.css";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -70,21 +71,22 @@ export default function Home() {
               <div className='text-2xl font-bold capitalize'>Shopify App's local authentication</div>
               <div className='text-lg'>Generate authenticated URL for Shopify embedded app in local environemnt.</div>
             </div>
-            <Form layout='vertical' onFinish={saveCredentials} initialValues={{
+            {credentials ? <Form layout='vertical' onFinish={saveCredentials} initialValues={{
               client_id: credentials?.client_id,
               shop: credentials?.config?.shop,
               redirect_uri: credentials?.config?.redirect_uri ?? 'http://locahost:3000',
               scopes: credentials?.config?.scopes ?? 'write_products',
               embedded: credentials?.config?.embedded ?? true,
             }}>
-              {credentials?.appSecrets === false ? <Fragment>
-                <Form.Item name="client_id" label="Shopify client ID" rules={[{ required: true, message: 'Client ID required' }]}>
-                  <Input />
-                </Form.Item>
-                <Form.Item name="client_secret" label="Shopify secret" rules={[{ required: true, message: 'Client secret required' }]}>
-                  <Input.Password />
-                </Form.Item>
-              </Fragment> : <></>}
+              {credentials?.appSecrets === false ?
+                <Fragment>
+                  <Form.Item name="client_id" label="Shopify client ID" rules={[{ required: true, message: 'Client ID required' }]}>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="client_secret" label="Shopify secret" rules={[{ required: true, message: 'Client secret required' }]}>
+                    <Input.Password />
+                  </Form.Item>
+                </Fragment> : <></>}
               <Form.Item name="shop" label="Shop" rules={[{ required: true, message: 'Shop required' }]}>
                 <Input addonAfter={<span className='font-bold'>{`.${process.env.NEXT_PUBLIC_SHOPIFY_APP_DOMAIN!}`}</span>} />
               </Form.Item>
@@ -94,17 +96,21 @@ export default function Home() {
               <Form.Item name="redirect_uri" label="Local app URL" rules={[{ required: true, message: 'Redirect URI required' }]}>
                 <Input />
               </Form.Item>
-              <Form.Item name="embedded" label="Embedded" rules={[{ required: true, message: 'Embedded property is required' }]} valuePropName="checked">
+              <Form.Item name="embedded" rules={[{ required: true, message: 'Embedded property is required' }]} valuePropName="checked">
                 <Checkbox>Embedded application</Checkbox>
               </Form.Item>
-              {credentials?.authenticatedUrl ? <div className="bg-blue-50 border-blue-500 p-6 rounded-2xl flex flex-col gap-3">
-                <div className="font-bold">Authenticated URL</div>
-                <a href={credentials.authenticatedUrl} target="_blank" rel="noreferrer">{credentials.authenticatedUrl}</a>
+              {credentials?.authenticatedUrl ? <div className="bg-blue-50 border-blue-500 border my-8 p-6 rounded-2xl flex flex-col gap-3 max-w-full">
+                <div className="font-bold capitalize">Curent session URL</div>
+                <a href={credentials.authenticatedUrl} target="_blank" rel="noreferrer" className='break-all'>{credentials.authenticatedUrl}</a>
               </div> : <></>}
-              <Button size='large' loading={loading} type="primary" htmlType="submit">
-                Login
-              </Button>
-            </Form>
+              <div className='flex items-center justify-center gap-6'>
+                <Button danger={typeof credentials?.authenticatedUrl === "string"} size='large' loading={loading} type="primary" htmlType="submit">
+                  {credentials?.authenticatedUrl ? <span>Revalidate</span> :
+                    <span>Login</span>}
+                </Button>
+              </div>
+            </Form> :
+              <AiOutlineLoading3Quarters className='text-3xl text-green-500 animate-spin' />}
           </div>
         </div>
       </main>

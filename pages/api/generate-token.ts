@@ -37,7 +37,7 @@ export default function handler(
 
       // credentials cookie
       const credentialsCookieStr = cookies[process.env.CREDENTIALS_COOKIE_NAME!];
-
+      console.log("validation.value.embedded", credentialsCookieStr);
       // initiated
       if (credentialsCookieStr) {
         try {
@@ -56,13 +56,14 @@ export default function handler(
 
           // get the authentication token    
           const token: AccessTokenResponse = response.data;
-
+          
           const expirationDate = new Date(Date.now() + token.expires_in * 1000);
 
           const redirectUrl = `${credentials.config.redirect_uri}/?${credentials.config.embedded ? 'embedded=1&' : ''}shop=${shopDomain}&host=${credentials.config.host}&session=${token.session}`;
 
           return res.setHeader('Set-Cookie', serialize(process.env.CREDENTIALS_COOKIE_NAME!, JSON.stringify({
             ...credentials,
+            authenticatedUrl: redirectUrl,
             config: {
               ...credentials.config,
               session: token.session,
