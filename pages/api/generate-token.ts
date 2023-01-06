@@ -37,7 +37,7 @@ export default function handler(
 
       // credentials cookie
       const credentialsCookieStr = cookies[process.env.CREDENTIALS_COOKIE_NAME!];
-      console.log("validation.value.embedded", credentialsCookieStr);
+      
       // initiated
       if (credentialsCookieStr) {
         try {

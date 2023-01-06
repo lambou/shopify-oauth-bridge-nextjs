@@ -74,7 +74,7 @@ export default function Home() {
             {credentials ? <Form layout='vertical' onFinish={saveCredentials} initialValues={{
               client_id: credentials?.client_id,
               shop: credentials?.config?.shop,
-              redirect_uri: credentials?.config?.redirect_uri ?? 'http://locahost:3000',
+              redirect_uri: credentials?.config?.redirect_uri ?? 'http://localhost:3000',
               scopes: credentials?.config?.scopes ?? 'write_products',
               embedded: credentials?.config?.embedded ?? true,
             }}>
